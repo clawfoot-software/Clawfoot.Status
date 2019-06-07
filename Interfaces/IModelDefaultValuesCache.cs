@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Clawfoot.Builders.Interfaces
 {
+    /// <summary>
+    /// The cache of default values for each model
+    /// </summary>
     public interface IModelDefaultValuesCache
     {
         /// <summary>

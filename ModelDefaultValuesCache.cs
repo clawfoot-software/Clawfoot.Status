@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Clawfoot.Builders
 {
+    /// <inheritdoc/>
     public class ModelDefaultValuesCache : IModelDefaultValuesCache
     {
         private Dictionary<Type, IModelDefaultValues> Defaults { get; set; }
