@@ -14,7 +14,7 @@ namespace Clawfoot.Builders
         internal readonly IModelDefaultValuesCache _modelDefaults;
         internal readonly ForeignKeyPropertyCache _propertyCache;
 
-        internal BuilderBase(IModelDefaultValuesCache modelDefaults, ForeignKeyPropertyCache propertyCache)
+        public BuilderBase(IModelDefaultValuesCache modelDefaults, ForeignKeyPropertyCache propertyCache)
         {
             _modelDefaults = modelDefaults is null ? throw new ArgumentNullException("modelDefaults is null") : modelDefaults;
             _propertyCache = propertyCache;
