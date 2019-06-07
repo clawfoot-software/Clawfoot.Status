@@ -6,16 +6,19 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Clawfoot.Builders
+namespace Clawfoot.Builders.ForeignKeys
 {
-    public class ForeignKeyPropertyCache
+    /// <summary>
+    /// The cache of <see cref="ModelForeignKeyProperties"/>
+    /// </summary>
+    internal class ForeignKeyPropertyCache
     {
-        public ForeignKeyPropertyCache()
+        private ConcurrentDictionary<Type, ModelForeignKeyProperties> Cache { get; set; }
+
+        internal ForeignKeyPropertyCache()
         {
             Cache = new ConcurrentDictionary<Type, ModelForeignKeyProperties>();
         }
-
-        private ConcurrentDictionary<Type, ModelForeignKeyProperties> Cache { get; set; }
 
         /// <summary>
         /// Gets the ModelForeignKeyProperties for the Type.
@@ -23,7 +26,7 @@ namespace Clawfoot.Builders
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public ModelForeignKeyProperties GetOrAdd(Type type)
+        internal ModelForeignKeyProperties GetOrAdd(Type type)
         {
             if (!Contains(type))
             {
@@ -62,7 +65,7 @@ namespace Clawfoot.Builders
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool Contains(Type type)
+        internal bool Contains(Type type)
         {
             return Cache.ContainsKey(type);
         }

@@ -4,9 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using System.Text;
 
-namespace Clawfoot.Builders
+namespace Clawfoot.Builders.ForeignKeys
 {
-    public class ForeignKeyProperty
+    /// <summary>
+    /// Used in the <see cref="ForeignKeyPropertyCache"/> to cache <see cref="ForeignKeyAttribute"/> information to avoid constant use of reflection
+    /// </summary>
+    internal class ForeignKeyProperty
     {
         /// <summary>
         /// 
@@ -14,7 +17,7 @@ namespace Clawfoot.Builders
         /// <param name="property">The property that has the [ForeignKey()] attribute</param>
         /// <param name="attribute">The attribute</param>
         /// <param name="referenceProperty">The property referenced in the ForeignKey attributes name</param>
-        public ForeignKeyProperty(PropertyInfo property, ForeignKeyAttribute attribute, PropertyInfo referenceProperty)
+        internal ForeignKeyProperty(PropertyInfo property, ForeignKeyAttribute attribute, PropertyInfo referenceProperty)
         {
             Property = property;
             Attribute = attribute;
@@ -24,16 +27,16 @@ namespace Clawfoot.Builders
         /// <summary>
         /// The property that has the [ForeignKey()] attribute
         /// </summary>
-        public PropertyInfo Property { get; }
+        internal PropertyInfo Property { get; }
 
         /// <summary>
         /// The <see cref="ForeignKeyAttribute"/> attached to this property
         /// </summary>
-        public ForeignKeyAttribute Attribute { get; }
+        internal ForeignKeyAttribute Attribute { get; }
 
         /// <summary>
         /// The property referenced in the ForeignKey attributes name
         /// </summary>
-        public PropertyInfo ReferenceProperty { get; }
+        internal PropertyInfo ReferenceProperty { get; }
     }
 }
