@@ -22,8 +22,9 @@ namespace Clawfoot.Builders
         }
 
         /// <summary>
-        /// Builds the model using the list of actions
+        /// Builds the model
         /// </summary>
+        /// <param name="fillInForeignKeysIds">Marks if foreign key Ids should be filled in from related Objects set on this model</param>
         /// <returns></returns>
         public virtual TModel Build(bool fillInForeignKeysIds = true)
         {
@@ -42,9 +43,10 @@ namespace Clawfoot.Builders
 
         /// <summary>
         /// Builds the model using the list of actions.
-        /// Note: This will override properties on built with queued action changes
+        /// Note: This will override properties on the provided model with queued action changes
         /// </summary>
         /// <param name="built">The existing model you wish to apply property changes to</param>
+        /// <param name="fillInForeignKeysIds">Marks if foreign key Ids should be filled in from related Objects set on this model</param>
         /// <returns></returns>
         public TModel Build(TModel built, bool fillInForeignKeysIds = true)
         {
@@ -61,11 +63,12 @@ namespace Clawfoot.Builders
         }
 
         /// <summary>
-        /// Add an action that sets the appropriate property
-        /// Example: .With(x => x.Id= 0)
+        /// Add an action that sets the appropriate model property. Is chainable.
         /// </summary>
-        /// <param name="with">The action</param>
-        /// <returns></returns>
+        /// <example>
+        ///     <code>With(x => x.Name = "Name")</code>
+        /// </example>         
+        /// <param name="with">The action to set the property</param>
         public IGenericBuilder<TModel> With(Action<TModel> with)
         {
             actions.Add(with);
@@ -73,7 +76,7 @@ namespace Clawfoot.Builders
         }
 
         /// <summary>
-        /// Applies the default values for the model configured from "ModelsDefaults"
+        /// Applies the default values for the model configured from <see cref="IModelDefaultValues"/>
         /// This will override any previously set values of the builder
         /// </summary>
         /// <param name="defaults">The defaults to use instead of the built-in defaults</param>

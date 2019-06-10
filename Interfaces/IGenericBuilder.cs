@@ -20,9 +20,11 @@ namespace Clawfoot.Builders.Interfaces
         IGenericBuilder<TModel> With(Action<TModel> with);
 
         /// <summary>
-        /// Applies the preconfigured defaults, or the provided defaults to the model
+        /// Applies the default values for the model configured from <see cref="IModelDefaultValues"/>
+        /// This will override any previously set values of the builder
         /// </summary>
-        /// <param name="defaults">Optional default values for the model</param>
+        /// <param name="defaults">The defaults to use instead of the built-in defaults</param>
+        /// <returns></returns>
         IGenericBuilder<TModel> UseDefaults(IModelDefaultValues<TModel> defaults = null);
     }
 }

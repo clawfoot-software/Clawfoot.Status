@@ -17,6 +17,12 @@ namespace Clawfoot.Builders.Interfaces
         /// </summary>
         IGenericBuilder<TEntity> EntityBuilder { get; }
 
+        /// <summary>
+        /// Builds the matching Entity from the DTO
+        /// Requires automapper configurations for the provided types
+        /// </summary>
+        /// <param name="fillInForeignKeysIds"></param>
+        /// <returns></returns>
         TEntity BuildAsEntity(bool fillInForeignKeysIds = true);
 
         new IModelEntityBuilder<TModel, TEntity> With(Action<TModel> with);
