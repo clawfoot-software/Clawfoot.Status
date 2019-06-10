@@ -1,5 +1,5 @@
-﻿using Clawfoot.Builders.ForeignKeys;
-using Clawfoot.Builders.Interfaces;
+﻿using Clawfoot.Builders.Interfaces;
+using Clawfoot.Utilities.Caches;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
