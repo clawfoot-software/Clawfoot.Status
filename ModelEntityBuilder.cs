@@ -7,8 +7,9 @@ using System.Text;
 
 namespace Clawfoot.Builders
 {
-    public class ModelEntityBuilder<TModel, TEntity> : BuilderBase<TModel>, IModelEntityBuilder<TModel, TEntity> where TEntity : IEntity, new() where TModel : new()
+    public class ModelEntityBuilder<TModel, TEntity> : Builder<TModel>, IModelEntityBuilder<TModel, TEntity> where TEntity : IEntity, new() where TModel : new()
     {
+        public ModelEntityBuilder() : base() { }
 
         public ModelEntityBuilder(IModelDefaultValuesCache modelDefaults, IForeignKeyPropertyCache propertyCache)
             : base(modelDefaults, propertyCache) { }
