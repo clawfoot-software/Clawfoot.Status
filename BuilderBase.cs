@@ -12,9 +12,9 @@ namespace Clawfoot.Builders
         internal List<Action<TModel>> actions;
 
         internal readonly IModelDefaultValuesCache _modelDefaults;
-        internal readonly ForeignKeyPropertyCache _propertyCache;
+        internal readonly IForeignKeyPropertyCache _propertyCache;
 
-        public BuilderBase(IModelDefaultValuesCache modelDefaults, ForeignKeyPropertyCache propertyCache)
+        public BuilderBase(IModelDefaultValuesCache modelDefaults, IForeignKeyPropertyCache propertyCache)
         {
             _modelDefaults = modelDefaults is null ? throw new ArgumentNullException("modelDefaults is null") : modelDefaults;
             _propertyCache = propertyCache;
