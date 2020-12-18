@@ -57,6 +57,35 @@ namespace Clawfoot.Status
         }
 
         /// <summary>
+        /// Sugar to create a status from an error enum.
+        /// </summary>
+        /// <typeparam name="TErrorEnum">The error enum type</typeparam>
+        /// <param name="errorEnum">The actual error enum value</param>
+        /// <param name="errorParams">The string formatting params for the error message, if any</param>
+        /// <returns></returns>
+        public static IStatus FromError<TErrorEnum>(TErrorEnum errorEnum, params string[] errorParams)
+             where TErrorEnum : Enum
+        {
+            IError error = Error.From(errorEnum, errorParams);
+            return Status.AsError(error);
+        }
+
+        /// <summary>
+        /// Sugar to create a status from an error enum.
+        /// </summary>
+        /// <typeparam name="TErrorEnum">The error enum type</typeparam>
+        /// <param name="errorEnum">The actual error enum value</param>
+        /// <param name="message">The error message</param>
+        /// <param name="userMessage">The user friendly error message</param>
+        /// <returns></returns>
+        public static IStatus FromError<TErrorEnum>(TErrorEnum errorEnum, string message, string userMessage = "")
+             where TErrorEnum : Enum
+        {
+            IError error = Error.From(errorEnum, message, userMessage);
+            return Status.AsError(error);
+        }
+
+        /// <summary>
         /// Helper method that creates a <see cref="Status"/> with an error message
         /// </summary>
         /// <param name="message">The error message</param>
