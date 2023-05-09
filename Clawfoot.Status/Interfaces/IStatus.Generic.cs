@@ -142,5 +142,18 @@ namespace Clawfoot.Status.Interfaces
         /// <param name="keepException"></param>
         /// <returns></returns>
         Task<T> InvokeAndSetResultAsync(Func<Task<T>> func, bool keepException = false);
+        
+        void Deconstruct(out IStatus status, out T result)
+        {
+            status = this;
+            result = Result;
+        }
+        
+        void Deconstruct(out IStatus status, out T result, out bool success)
+        {
+            status = this;
+            result = Result;
+            success = Success;
+        }
     }
 }

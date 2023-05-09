@@ -197,5 +197,18 @@ namespace Clawfoot.Status
 
             return default(T);
         }
+        
+        public void Deconstruct(out IStatus status, out T result)
+        {
+            status = this;
+            result = Result;
+        }
+
+        public void Deconstruct(out IStatus status, out T result, out bool success)
+        {
+            status = this;
+            result = Result;
+            success = Success;
+        }
     }
 }
