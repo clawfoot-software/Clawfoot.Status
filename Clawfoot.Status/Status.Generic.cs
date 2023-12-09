@@ -149,54 +149,6 @@ namespace Clawfoot.Status
             return status;
 
         }
-
-        /// <inheritdoc/>
-        public T InvokeAndSetResult(Func<T> func, bool keepException = false)
-        {
-            try
-            {
-                T result = func.Invoke();
-                SetResult(result);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                if (!keepException)
-                {
-                    AddError(ex.Message);
-                }
-                else
-                {
-                    AddException(ex);
-                }
-            }
-
-            return default(T);
-        }
-
-        /// <inheritdoc/>
-        public async Task<T> InvokeAndSetResultAsync(Func<Task<T>> func, bool keepException = false)
-        {
-            try
-            {
-                T result = await func.Invoke();
-                SetResult(result);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                if (!keepException)
-                {
-                    AddError(ex.Message);
-                }
-                else
-                {
-                    AddException(ex);
-                }
-            }
-
-            return default(T);
-        }
         
         public void Deconstruct(out IStatus status, out T result)
         {
