@@ -230,7 +230,7 @@ namespace Clawfoot.Status
         }
 
         /// <inheritdoc/>
-        public IStatus<T> AsGeneric<T>()
+        public IStatus<T> As<T>()
         {
             IStatus<T> status = new Status<T>();
             status.MergeStatuses(this);

@@ -123,7 +123,7 @@ namespace Clawfoot.Status.Interfaces
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="result"></param>
-        IStatus<TResult> ConvertTo<TResult>(TResult result);
+        IStatus<TResult> To<TResult>(TResult result);
         
         void Deconstruct(out IStatus status, out T result)
         {

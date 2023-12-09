@@ -140,7 +140,7 @@ namespace Clawfoot.Status
         }
 
         /// <inheritdoc/>
-        public IStatus<TResult> ConvertTo<TResult>(TResult result)
+        public IStatus<TResult> To<TResult>(TResult result)
         {
             IStatus<TResult> status = new Status<TResult>();
             status.SetResult(result);

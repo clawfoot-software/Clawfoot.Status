@@ -42,7 +42,7 @@ namespace Clawfoot.Status.Interfaces
         /// </summary>
         /// <typeparam name="T">The Generic Type for the returned status</typeparam>
         /// <returns></returns>
-        IStatus<T> AsGeneric<T>();
+        IStatus<T> As<T>();
 
         /// <summary>
         /// Creates a <see cref="IStatus{T}"/>, merges this status into it, and sets the result

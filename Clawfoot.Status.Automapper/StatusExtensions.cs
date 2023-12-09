@@ -11,7 +11,7 @@ namespace Clawfoot.Extensions.Automapper
         public static IStatus<TToResult> MapResultTo<TFromResult, TToResult>(this IStatus<TFromResult> status, IMapper mapper)
         {
             TToResult result = mapper.Map<TToResult>(status.Result);
-            return status.ConvertTo<TToResult>(result);
+            return status.To<TToResult>(result);
         }
     }
 }
