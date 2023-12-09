@@ -115,7 +115,7 @@ namespace Clawfoot.Status
             {
                 if (!keepException)
                 {
-                    return Status.AsError<TResult>(ex.Message);
+                    return Status.Error<TResult>(ex.Message);
                 }
 
                 Status<TResult> status = new Status<TResult>();
@@ -143,7 +143,7 @@ namespace Clawfoot.Status
             {
                 if (!keepException)
                 {
-                    return Status.AsError<TResult>(ex.Message);
+                    return Status.Error<TResult>(ex.Message);
                 }
 
                 Status<TResult> status = new Status<TResult>();

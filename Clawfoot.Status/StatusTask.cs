@@ -25,7 +25,7 @@ namespace Clawfoot.Status
 
         public StatusTask(IError error)
         {
-            this.Value = Status.AsError<T>(error);
+            this.Value = Status.Error<T>(error);
             this.IsCompleted = true;
         }
 
@@ -56,7 +56,7 @@ namespace Clawfoot.Status
         internal void SetResult(IError error)
         {
             if (this.IsCompleted) throw new Exception("Already completed");
-            this.Value = Status.AsError<T>(error);
+            this.Value = Status.Error<T>(error);
             this.IsCompleted = true;
             this._continuation?.Invoke();
         }

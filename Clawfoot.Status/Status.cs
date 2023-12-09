@@ -66,8 +66,8 @@ namespace Clawfoot.Status
         public static IStatus FromError<TErrorEnum>(TErrorEnum errorEnum, params string[] errorParams)
              where TErrorEnum : Enum
         {
-            IError error = Error.From(errorEnum, errorParams);
-            return Status.AsError(error);
+            IError error = Clawfoot.Status.Error.From(errorEnum, errorParams);
+            return Status.Error(error);
         }
 
         /// <summary>
@@ -81,8 +81,8 @@ namespace Clawfoot.Status
         public static IStatus FromError<TErrorEnum>(TErrorEnum errorEnum, string message, string userMessage = "")
              where TErrorEnum : Enum
         {
-            IError error = Error.From(errorEnum, message, userMessage);
-            return Status.AsError(error);
+            IError error = Clawfoot.Status.Error.From(errorEnum, message, userMessage);
+            return Status.Error(error);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="error">The error model</param>
         /// <returns></returns>
-        public static IStatus AsError(IError error)
+        public static IStatus Error(IError error)
         {
             Status status = new Status();
             status.AddError(error);
@@ -115,7 +115,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="errors">The errors</param>
         /// <returns>A New Status</returns>
-        public static IStatus AsError(IEnumerable<IError> errors)
+        public static IStatus Error(IEnumerable<IError> errors)
         {
             Status status = new Status();
             status.AddErrors(errors);
@@ -128,7 +128,7 @@ namespace Clawfoot.Status
         /// <param name="message">The error message</param>
         /// <param name="userMessage">The user friendly error message</param>
         /// <returns></returns>
-        public static IStatus<TResult> AsError<TResult>(string message, string userMessage = "")
+        public static IStatus<TResult> Error<TResult>(string message, string userMessage = "")
         {
             Status<TResult> status = new Status<TResult>();
             status.AddError(message, userMessage);
@@ -140,7 +140,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="error">The error model</param>
         /// <returns></returns>
-        public static IStatus<TResult> AsError<TResult>(IError error)
+        public static IStatus<TResult> Error<TResult>(IError error)
         {
             Status<TResult> status = new Status<TResult>();
             status.AddError(error);
@@ -152,7 +152,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="errors">The errors</param>
         /// <returns>A New Status</returns>
-        public static IStatus<TResult> AsError<TResult>(IEnumerable<IError> errors)
+        public static IStatus<TResult> Error<TResult>(IEnumerable<IError> errors)
         {
             Status<TResult> status = new Status<TResult>();
             status.AddErrors(errors);
@@ -164,7 +164,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="ex">The exception</param>
         /// <returns></returns>
-        public static IStatus AsErrorWithException(Exception ex)
+        public static IStatus Error(Exception ex)
         {
             Status status = new Status();
             status.AddException(ex);
@@ -176,7 +176,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="ex">The exception</param>
         /// <returns></returns>
-        public static IStatus<TResult> AsErrorWithException<TResult>(Exception ex)
+        public static IStatus<TResult> Error<TResult>(Exception ex)
         {
             Status<TResult> status = new Status<TResult>();
             status.AddException(ex);
