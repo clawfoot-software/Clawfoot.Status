@@ -7,6 +7,5 @@ namespace Clawfoot.Status.Interfaces
 {
     public interface IStatus : IStatusBase
     {
-
     }
 }
