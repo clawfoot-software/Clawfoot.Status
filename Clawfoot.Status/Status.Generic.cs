@@ -10,7 +10,7 @@ namespace Clawfoot.Status
     /// A generic version of a generic status
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Status<T> : Status, IStatus<T>
+    public class Status<T> :  StatusBase, IStatus<T>
     {
         private T _result;
 
@@ -150,6 +150,16 @@ namespace Clawfoot.Status
 
         }
         
+        public static implicit operator Status<T>(T value)
+        {
+            return new Status<T>(value);
+        }
+        
+        public static implicit operator Status<T>(Status value)
+        {
+            return value.As<T>();
+        }
+        
         public void Deconstruct(out IStatus status, out T result)
         {
             status = this;
@@ -164,3 +174,5 @@ namespace Clawfoot.Status
         }
     }
 }
+
+

@@ -12,12 +12,12 @@ namespace Clawfoot.Status
     /// </summary>
     public class GenericStatus : Status { }
 
-    public partial class Status : IStatus
+    public partial class Status : StatusBase, IStatus
     {
-        internal const string DefaultSuccessMessage = "Success";
-        private protected readonly List<IError> _errors = new List<IError>();
-        private protected readonly List<Exception> _exceptions = new List<Exception>();
-        private protected string _successMessage = DefaultSuccessMessage;
+        // internal const string DefaultSuccessMessage = "Success";
+        // private protected readonly List<IError> _errors = new List<IError>();
+        // private protected readonly List<Exception> _exceptions = new List<Exception>();
+        // private protected string _successMessage = DefaultSuccessMessage;
 
         /// <summary>
         /// Create a generic status
@@ -41,7 +41,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="successMessage">The default success message</param>
         /// <returns></returns>
-        public static IStatus AsSuccess(string successMessage = null)
+        public static Status AsSuccess(string successMessage = null)
         {
             return new Status(successMessage);
         }
@@ -51,7 +51,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="successMessage">The default success message</param>
         /// <returns></returns>
-        public static IStatus Ok(string successMessage = null) => AsSuccess(successMessage);
+        public static Status Ok(string successMessage = null) => AsSuccess(successMessage);
 
         /// <summary>
         /// Helper method that creates a <see cref="Status{T}"/> with a success message and a result
@@ -59,7 +59,7 @@ namespace Clawfoot.Status
         /// <param name="result">The result of this generic</param>
         /// <param name="successMessage">The default success message</param>
         /// <returns></returns>
-        public static IStatus<TResult> AsSuccess<TResult>(TResult result, string successMessage = null)
+        public static Status<TResult> AsSuccess<TResult>(TResult result, string successMessage = null)
         {
             return new Status<TResult>(result, successMessage);
         }
@@ -70,7 +70,7 @@ namespace Clawfoot.Status
         /// <param name="result">The result of this generic</param>
         /// <param name="successMessage">The default success message</param>
         /// <returns></returns>
-        public static IStatus<TResult> Ok<TResult>(TResult result, string successMessage = null) => AsSuccess(result, successMessage);
+        public static Status<TResult> Ok<TResult>(TResult result, string successMessage = null) => AsSuccess(result, successMessage);
 
         /// <summary>
         /// Sugar to create a status from an error enum.
@@ -79,7 +79,7 @@ namespace Clawfoot.Status
         /// <param name="errorEnum">The actual error enum value</param>
         /// <param name="errorParams">The string formatting params for the error message, if any</param>
         /// <returns></returns>
-        public static IStatus FromError<TErrorEnum>(TErrorEnum errorEnum, params string[] errorParams)
+        public static Status FromError<TErrorEnum>(TErrorEnum errorEnum, params string[] errorParams)
              where TErrorEnum : Enum
         {
             IError error = Clawfoot.Status.Error.From(errorEnum, errorParams);
@@ -94,7 +94,7 @@ namespace Clawfoot.Status
         /// <param name="message">The error message</param>
         /// <param name="userMessage">The user friendly error message</param>
         /// <returns></returns>
-        public static IStatus FromError<TErrorEnum>(TErrorEnum errorEnum, string message, string userMessage = "")
+        public static Status FromError<TErrorEnum>(TErrorEnum errorEnum, string message, string userMessage = "")
              where TErrorEnum : Enum
         {
             IError error = Clawfoot.Status.Error.From(errorEnum, message, userMessage);
@@ -107,7 +107,7 @@ namespace Clawfoot.Status
         /// <param name="message">The error message</param>
         /// <param name="userMessage">The user friendly error message</param>
         /// <returns></returns>
-        public static IStatus AsError(string message, string userMessage = "")
+        public static Status AsError(string message, string userMessage = "")
         {
             Status status = new Status();
             status.AddError(message, userMessage);
@@ -119,7 +119,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="error">The error model</param>
         /// <returns></returns>
-        public static IStatus Error(IError error)
+        public static Status Error(IError error)
         {
             Status status = new Status();
             status.AddError(error);
@@ -131,7 +131,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="errors">The errors</param>
         /// <returns>A New Status</returns>
-        public static IStatus Error(IEnumerable<IError> errors)
+        public static Status Error(IEnumerable<IError> errors)
         {
             Status status = new Status();
             status.AddErrors(errors);
@@ -144,7 +144,7 @@ namespace Clawfoot.Status
         /// <param name="message">The error message</param>
         /// <param name="userMessage">The user friendly error message</param>
         /// <returns></returns>
-        public static IStatus<TResult> Error<TResult>(string message, string userMessage = "")
+        public static Status<TResult> Error<TResult>(string message, string userMessage = "")
         {
             Status<TResult> status = new Status<TResult>();
             status.AddError(message, userMessage);
@@ -156,7 +156,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="error">The error model</param>
         /// <returns></returns>
-        public static IStatus<TResult> Error<TResult>(IError error)
+        public static Status<TResult> Error<TResult>(IError error)
         {
             Status<TResult> status = new Status<TResult>();
             status.AddError(error);
@@ -168,7 +168,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="errors">The errors</param>
         /// <returns>A New Status</returns>
-        public static IStatus<TResult> Error<TResult>(IEnumerable<IError> errors)
+        public static Status<TResult> Error<TResult>(IEnumerable<IError> errors)
         {
             Status<TResult> status = new Status<TResult>();
             status.AddErrors(errors);
@@ -180,7 +180,7 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="ex">The exception</param>
         /// <returns></returns>
-        public static IStatus Error(Exception ex)
+        public static Status Error(Exception ex)
         {
             Status status = new Status();
             status.AddException(ex);
@@ -192,167 +192,11 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="ex">The exception</param>
         /// <returns></returns>
-        public static IStatus<TResult> Error<TResult>(Exception ex)
+        public static Status<TResult> Error<TResult>(Exception ex)
         {
             Status<TResult> status = new Status<TResult>();
             status.AddException(ex);
             return status;
-        }
-
-
-
-        /// <inheritdoc/>
-        public IEnumerable<IError> Errors => _errors.AsEnumerable();
-
-        /// <inheritdoc/>
-        public IEnumerable<Exception> Exceptions => _exceptions.AsEnumerable();
-
-        /// <inheritdoc/>
-        public bool Success => _errors.Count == 0;
-
-        /// <inheritdoc/>
-        public bool HasErrors => _errors.Count > 0;
-
-        /// <inheritdoc/>
-        public bool HasExceptions => _exceptions.Count > 0;
-
-        /// <inheritdoc/>
-        public string Message
-        {
-            get => Success
-                ? _successMessage
-                : $"Failed with {_errors.Count} error(s)";
-            set => _successMessage = value;
-        }
-
-        /// <inheritdoc/>
-        public string ToString(string seperator = "\n")
-        {
-            if (_errors.Count > 0)
-            {
-                return string.Join(seperator, _errors);
-            }
-            return string.Empty;
-        }
-
-        /// <inheritdoc/>
-        public string ToUserFriendlyString(string seperator = "\n")
-        {
-            if (_errors.Count > 0)
-            {
-                return string.Join(seperator, _errors.Select(x => x.ToUserString()).ToArray());
-            }
-            return string.Empty;
-        }
-
-        /// <inheritdoc/>
-        public IStatus<T> As<T>()
-        {
-            IStatus<T> status = new Status<T>();
-            status.MergeStatuses(this);
-            return status;
-        }
-
-        /// <inheritdoc/>
-        public IStatus<T> SetResult<T>(T result)
-        {
-            IStatus<T> status = new Status<T>();
-            status.MergeStatuses(this);
-            status.SetResult(result);
-            return status;
-        }
-
-        /// <inheritdoc/>
-        public IStatus MergeStatuses(IStatus status)
-        {
-            _errors.AddRange(status.Errors);
-            _exceptions.AddRange(status.Exceptions);
-
-            if (!HasErrors)
-            {
-                _successMessage = status.Message;
-            }
-
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IStatus MergeIntoStatus(IStatus status)
-        {
-            return status.MergeStatuses(this);
-        }
-
-        /// <inheritdoc/>
-        public IStatus AddException(Exception ex)
-        {
-            _exceptions.Add(ex);
-            AddError(ex.Message);
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IStatus AddError(string message, string userMessage = "")
-        {
-            _errors.Add(new Error(message, userMessage));
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IStatus AddError(IError error)
-        {
-            _errors.Add(error);
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IStatus AddErrors(IEnumerable<IError> errors)
-        {
-            foreach(IError error in errors)
-            {
-                _errors.Add(error);
-            }
-            
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IStatus AddErrorIfNull<T>(T value, string message, string userMessage = "") where T : class
-        {
-            if (value is null)
-            {
-                return AddError(message, userMessage);
-            }
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IStatus AddErrorIfNull<T>(T? value, string message, string userMessage = "") where T : struct
-        {
-            if (value is null)
-            {
-                return AddError(message, userMessage);
-            }
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IStatus AddErrorIfNullOrDefault<T>(T value, string message, string userMessage = "") where T : class
-        {
-            if (value is null || value == default(T))
-            {
-                return AddError(message, userMessage);
-            }
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IStatus AddErrorIfNullOrDefault<T>(T? value, string message, string userMessage = "") where T : struct
-        {
-            if (value is null || value.Value.Equals(default(T)))
-            {
-                return AddError(message, userMessage);
-            }
-            return this;
         }
         
         public static implicit operator bool(Status status)
