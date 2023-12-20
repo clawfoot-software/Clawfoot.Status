@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Clawfoot.Status;
 
 namespace Clawfoot.Status
 {
@@ -46,7 +47,14 @@ namespace Clawfoot.Status
         }
 
         /// <summary>
-        /// Helper method that creates a <see cref="Status{T}"/> with a sucess message and a result
+        /// Helper method that creates a <see cref="Status"/> with no errors
+        /// </summary>
+        /// <param name="successMessage">The default success message</param>
+        /// <returns></returns>
+        public static IStatus Ok(string successMessage = null) => AsSuccess(successMessage);
+
+        /// <summary>
+        /// Helper method that creates a <see cref="Status{T}"/> with a success message and a result
         /// </summary>
         /// <param name="result">The result of this generic</param>
         /// <param name="successMessage">The default success message</param>
@@ -55,6 +63,14 @@ namespace Clawfoot.Status
         {
             return new Status<TResult>(result, successMessage);
         }
+        
+        /// <summary>
+        /// Helper method that creates a <see cref="Status{T}"/> with a success message and a result
+        /// </summary>
+        /// <param name="result">The result of this generic</param>
+        /// <param name="successMessage">The default success message</param>
+        /// <returns></returns>
+        public static IStatus<TResult> Ok<TResult>(TResult result, string successMessage = null) => AsSuccess(result, successMessage);
 
         /// <summary>
         /// Sugar to create a status from an error enum.
@@ -337,6 +353,11 @@ namespace Clawfoot.Status
                 return AddError(message, userMessage);
             }
             return this;
+        }
+        
+        public static implicit operator bool(Status status)
+        {
+            return status.Success;
         }
     }
 }
