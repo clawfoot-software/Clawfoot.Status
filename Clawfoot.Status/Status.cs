@@ -107,7 +107,7 @@ namespace Clawfoot.Status
         /// <param name="message">The error message</param>
         /// <param name="userMessage">The user friendly error message</param>
         /// <returns></returns>
-        public static Status AsError(string message, string userMessage = "")
+        public static Status Error(string message, string userMessage = "")
         {
             Status status = new Status();
             status.AddError(message, userMessage);
