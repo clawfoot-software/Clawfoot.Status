@@ -35,6 +35,38 @@ namespace Clawfoot.Status
 
             return default(T);
         }
+        
+        /// <summary>
+        /// Invokes the delegate, and if it throws an exception, records it in the current status and returns null.
+        /// If success, unwraps the nested status, sets the status result, and returns the result of the delegate
+        /// </summary>
+        /// <param name="func"></param>
+        /// <param name="keepException"></param>
+        /// <returns></returns>
+        public static T InvokeResult<T>(this IStatus<T> status, Func<IStatus<T>> func, bool keepException = false)
+        {
+            try
+            {
+                IStatus<T> result = func.Invoke();
+                status.SetResult(result);
+                status.MergeStatuses(result);
+                
+                return result.Result;
+            }
+            catch (Exception ex)
+            {
+                if (!keepException)
+                {
+                    status.AddError(ex.Message);
+                }
+                else
+                {
+                    status.AddException(ex);
+                }
+            }
+
+            return default(T);
+        }
 
         /// <summary>
         /// Invokes the delegate, and if it throws an exception, records it in the current status and returns null.
