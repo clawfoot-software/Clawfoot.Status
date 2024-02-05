@@ -17,8 +17,8 @@ namespace Clawfoot.Status
                 status.AddException(ex);
             }
         }
-        
-        
+
+
         /// <summary>
         /// Invokes the delegate, and if it throws an exception, records it in the current status.
         /// Returns this status
@@ -33,15 +33,29 @@ namespace Clawfoot.Status
             {
                 HandleInvokeException(status, ex, keepException);
             }
-        
+
             return status;
         }
-        
+
+        /// <summary>
+        /// Invokes the delegate, and if it throws an exception, records it in the current status.
+        /// Returns this status
+        /// </summary>
+        public static Status Invoke(this Status status, Action action, bool keepException = false) =>
+            (Status)Invoke((IStatus)status, action, keepException);
+
         /// <summary>
         /// Invokes the delegate, and if it throws an exception, records it in the current status.
         /// Returns this status
         /// </summary>
         public static IStatus Do(this IStatus status, Action action, bool keepException = false) => Invoke(status, action, keepException);
+
+        /// <summary>
+        /// Invokes the delegate, and if it throws an exception, records it in the current status.
+        /// Returns this status
+        /// </summary>
+        public static Status Do(this Status status, Action action, bool keepException = false) =>
+            (Status)Invoke((IStatus)status, action, keepException);
 
         /// <summary>
         /// Invokes the delegate, and if it throws an exception, records it in the current status.
@@ -81,14 +95,28 @@ namespace Clawfoot.Status
 
             return status;
         }
+
+        /// <summary>
+        /// Invokes the delegate, and if it throws an exception, records it in the current status.
+        /// Returns this status
+        /// </summary>
+        public static Status Invoke<TParam>(this Status status, Action<TParam> action, TParam obj, bool keepException = false) =>
+            (Status)Invoke((IStatus)status, action, obj, keepException);
+
+        /// <summary>
+        /// Invokes the delegate, and if it throws an exception, records it in the current status.
+        /// Returns this status
+        /// </summary>
+        public static IStatus Do<TParam>(this IStatus status, Action<TParam> action, TParam obj, bool keepException = false) =>
+            Invoke(status, action, obj, keepException);
         
         /// <summary>
         /// Invokes the delegate, and if it throws an exception, records it in the current status.
         /// Returns this status
         /// </summary>
-        public static IStatus Do<TParam>(this IStatus status, Action<TParam> action, TParam obj, bool keepException = false) => 
-            Invoke(status, action, obj, keepException);
-        
+        public static Status Do<TParam>(this Status status, Action<TParam> action, TParam obj, bool keepException = false) =>
+            (Status)Invoke((IStatus)status, action, obj, keepException);
+
         /// <summary>
         /// Invokes the delegate, and if it throws an exception, records it in the current status.
         /// Returns this status
@@ -96,7 +124,10 @@ namespace Clawfoot.Status
         /// <param name="action"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static async Task<IStatus> InvokeAsync<TParam>(this IStatus status, Func<TParam, Task> action, TParam obj, bool keepException = false)
+        public static async Task<IStatus> InvokeAsync<TParam>(this IStatus status,
+            Func<TParam, Task> action,
+            TParam obj,
+            bool keepException = false)
         {
             try
             {
@@ -109,7 +140,7 @@ namespace Clawfoot.Status
 
             return status;
         }
-        
+
         /// <summary>
         /// Invokes the delegate that returns an <see cref="IStatus"/>, and merges that result status into this status
         /// If an exception occurs, records that exception in this status.
@@ -129,13 +160,30 @@ namespace Clawfoot.Status
 
             return status;
         }
+
+        /// <summary>
+        /// Invokes the delegate that returns an <see cref="IStatus"/>, and merges that result status into this status
+        /// If an exception occurs, records that exception in this status.
+        /// Returns this status
+        /// </summary>
+        public static IStatus Do(this IStatus status, Func<IStatus> func, bool keepException = false) =>
+            Invoke(status, func, keepException);
         
         /// <summary>
         /// Invokes the delegate that returns an <see cref="IStatus"/>, and merges that result status into this status
         /// If an exception occurs, records that exception in this status.
         /// Returns this status
         /// </summary>
-        public static IStatus Do(this IStatus status, Func<IStatus> func, bool keepException = false) => Invoke(status, func, keepException);
+        public static Status Do(this Status status, Func<Status> func, bool keepException = false) =>
+            (Status)Invoke((IStatus)status, func, keepException);
+        
+        /// <summary>
+        /// Invokes the delegate that returns an <see cref="IStatus"/>, and merges that result status into this status
+        /// If an exception occurs, records that exception in this status.
+        /// Returns this status
+        /// </summary>
+        public static Status Do(this Status status, Func<IStatus> func, bool keepException = false) =>
+            (Status)Invoke(status, func, keepException);
         
         /// <summary>
         /// Invokes the delegate that returns an <see cref="IStatus"/>, and merges that result status into this status
@@ -159,7 +207,7 @@ namespace Clawfoot.Status
 
             return status;
         }
-        
+
         /// <summary>
         /// Invokes the delegate that returns an <see cref="IStatus{T}"/>, merges that result status into this status, and returns the TResult result
         /// If an exception occurs, records that exception in this status and returns default(TResult).
@@ -192,7 +240,9 @@ namespace Clawfoot.Status
         /// <param name="func"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static async Task<TResult> InvokeResultAsync<TResult>(this IStatus status, Func<Task<IStatus<TResult>>> func, bool keepException = false)
+        public static async Task<TResult> InvokeResultAsync<TResult>(this IStatus status,
+            Func<Task<IStatus<TResult>>> func,
+            bool keepException = false)
         {
             try
             {
@@ -239,7 +289,9 @@ namespace Clawfoot.Status
         /// <param name="func">The delegate</param>
         /// <param name="keepException">To keep the exception in the status, or just record the error message</param>
         /// <returns></returns>
-        public static async Task<TResult> InvokeResultAsync<TResult>(this IStatus status, Func<Task<TResult>> func, bool keepException = false)
+        public static async Task<TResult> InvokeResultAsync<TResult>(this IStatus status,
+            Func<Task<TResult>> func,
+            bool keepException = false)
         {
             try
             {

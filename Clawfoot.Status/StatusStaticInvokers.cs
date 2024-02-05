@@ -14,9 +14,9 @@ namespace Clawfoot.Status
         /// <param name="action"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static IStatus Invoke(Action action, bool keepException = false)
+        public static Status Invoke(Action action, bool keepException = false)
         {
-            IStatus status = new Status();
+            Status status = new Status();
 
             return status.Invoke(action, keepException);
         }
@@ -28,11 +28,11 @@ namespace Clawfoot.Status
         /// <param name="action"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public async static Task<IStatus> InvokeAsync(Func<Task> action, bool keepException = false)
+        public async static Task<Status> InvokeAsync(Func<Task> action, bool keepException = false)
         {
-            IStatus status = new Status();
+            Status status = new Status();
 
-            return await status.InvokeAsync(action, keepException);
+            return (Status) await status.InvokeAsync(action, keepException);
         }
 
         /// <summary>
@@ -43,10 +43,10 @@ namespace Clawfoot.Status
         /// <param name="keepException"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static IStatus Invoke<TParam>(Action<TParam> action, TParam obj,
+        public static Status Invoke<TParam>(Action<TParam> action, TParam obj,
             bool keepException = false)
         {
-            IStatus status = new Status();
+            Status status = new Status();
 
             return status.Invoke(action, obj, keepException);
         }
@@ -59,12 +59,12 @@ namespace Clawfoot.Status
         /// <param name="keepException"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public async static Task<IStatus> InvokeAsync<TParam>(Func<TParam, Task> action, TParam obj,
+        public async static Task<Status> InvokeAsync<TParam>(Func<TParam, Task> action, TParam obj,
             bool keepException = false)
         {
-            IStatus status = new Status();
+            Status status = new Status();
 
-            return await status.InvokeAsync(action, obj, keepException);
+            return (Status) await status.InvokeAsync(action, obj, keepException);
         }
         
         /// <summary>
@@ -73,9 +73,9 @@ namespace Clawfoot.Status
         /// <param name="func"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static IStatus Invoke(Func<IStatus> func, bool keepException = false)
+        public static Status Invoke(Func<IStatus> func, bool keepException = false)
         {
-            IStatus status = new Status();
+            Status status = new Status();
             status.Invoke(func, keepException);
 
             return status;
@@ -87,10 +87,10 @@ namespace Clawfoot.Status
         /// <param name="func"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static async Task<IStatus> Invoke(Func<Task<IStatus>> func,
+        public static async Task<Status> Invoke(Func<Task<IStatus>> func,
             bool keepException = false)
         {
-            IStatus status = new Status();
+            Status status = new Status();
             await status.InvokeAsync(func, keepException);
 
             return status;
@@ -103,7 +103,7 @@ namespace Clawfoot.Status
         /// <param name="func">The delegate</param>
         /// <param name="keepException">To keep the exception in the stus, or just record the error message</param>
         /// <returns></returns>
-        public static IStatus<TResult> InvokeResult<TResult>(Func<TResult> func,
+        public static Status<TResult> InvokeResult<TResult>(Func<TResult> func,
             bool keepException = false)
         {
             try
@@ -131,7 +131,7 @@ namespace Clawfoot.Status
         /// <param name="func">The delegate</param>
         /// <param name="keepException">To keep the exception in the stus, or just record the error message</param>
         /// <returns></returns>
-        public async static Task<IStatus<TResult>> InvokeResultAsync<TResult>(Func<Task<TResult>> func,
+        public async static Task<Status<TResult>> InvokeResultAsync<TResult>(Func<Task<TResult>> func,
             bool keepException = false)
         {
             try

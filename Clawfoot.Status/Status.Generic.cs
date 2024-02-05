@@ -33,7 +33,7 @@ namespace Clawfoot.Status
         /// </summary>
         public T Result
         {
-            get => HasErrors ? default(T) : _result;
+            get => _result;
             set => _result = value;
         }
 
@@ -42,7 +42,6 @@ namespace Clawfoot.Status
         {
             get
             {
-                if (HasErrors) return false;
                 if (EqualityComparer<T>.Default.Equals(_result, default(T))) return false;
 
                 return true;
