@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clawfoot.Status.Automapper"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clawfoot.Status", "Clawfoot.Status\Clawfoot.Status.csproj", "{DB54892C-8777-41C0-8FEB-1074954D3A15}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clawfoot.Status.Tests", "Clawfoot.Status.Tests\Clawfoot.Status.Tests.csproj", "{C253FA19-5368-46BB-8BAB-E7333E3E1861}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{6031113A-9C22-49BC-B6CD-C4A01B06C8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6031113A-9C22-49BC-B6CD-C4A01B06C8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6031113A-9C22-49BC-B6CD-C4A01B06C8E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C253FA19-5368-46BB-8BAB-E7333E3E1861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C253FA19-5368-46BB-8BAB-E7333E3E1861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C253FA19-5368-46BB-8BAB-E7333E3E1861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C253FA19-5368-46BB-8BAB-E7333E3E1861}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -64,9 +64,18 @@ namespace Clawfoot.Status
                     status.AddException(ex);
                 }
             }
-
+        
             return default(T);
         }
+        
+        public static T InvokeResult<T>(this IStatus<T> status, Func<Status<T>> func, bool keepException = false) =>
+            InvokeResult(status, (Func<IStatus<T>>)func, keepException);
+
+        public static T InvokeResult<T>(this Status<T> status, Func<IStatus<T>> func, bool keepException = false) =>
+            InvokeResult((IStatus<T>)status, func, keepException);
+        
+        public static T InvokeResult<T>(this Status<T> status, Func<Status<T>> func, bool keepException = false) =>
+            InvokeResult((IStatus<T>)status, (Func<IStatus<T>>)func, keepException);
 
         /// <summary>
         /// Invokes the delegate, and if it throws an exception, records it in the current status and returns null.
