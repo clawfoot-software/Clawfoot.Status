@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Clawfoot.Status.Interfaces;
 
 namespace Clawfoot.Status
 {
@@ -13,7 +12,7 @@ namespace Clawfoot.Status
         /// <param name="func"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static T InvokeResult<T>(this IStatus<T> status, Func<T> func, bool keepException = false)
+        public static T InvokeResult<T>(this Status<T> status, Func<T> func, bool keepException = false)
         {
             try
             {
@@ -43,11 +42,11 @@ namespace Clawfoot.Status
         /// <param name="func"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static T InvokeResult<T>(this IStatus<T> status, Func<IStatus<T>> func, bool keepException = false)
+        public static T InvokeResult<T>(this Status<T> status, Func<Status<T>> func, bool keepException = false)
         {
             try
             {
-                IStatus<T> result = func.Invoke();
+                Status<T> result = func.Invoke();
                 status.SetResult(result);
                 status.MergeStatuses(result);
                 
@@ -68,14 +67,6 @@ namespace Clawfoot.Status
             return default(T);
         }
         
-        public static T InvokeResult<T>(this IStatus<T> status, Func<Status<T>> func, bool keepException = false) =>
-            InvokeResult(status, (Func<IStatus<T>>)func, keepException);
-
-        public static T InvokeResult<T>(this Status<T> status, Func<IStatus<T>> func, bool keepException = false) =>
-            InvokeResult((IStatus<T>)status, func, keepException);
-        
-        public static T InvokeResult<T>(this Status<T> status, Func<Status<T>> func, bool keepException = false) =>
-            InvokeResult((IStatus<T>)status, (Func<IStatus<T>>)func, keepException);
 
         /// <summary>
         /// Invokes the delegate, and if it throws an exception, records it in the current status and returns null.
@@ -84,7 +75,7 @@ namespace Clawfoot.Status
         /// <param name="func"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static async Task<T> InvokeResultAsync<T>(this IStatus<T> status, Func<Task<T>> func,
+        public static async Task<T> InvokeResultAsync<T>(this Status<T> status, Func<Task<T>> func,
             bool keepException = false)
         {
             try
@@ -115,12 +106,12 @@ namespace Clawfoot.Status
         /// <param name="func"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static async Task<T> InvokeResultAsync<T>(this IStatus<T> status, Func<Task<IStatus<T>>> func,
+        public static async Task<T> InvokeResultAsync<T>(this Status<T> status, Func<Task<Status<T>>> func,
             bool keepException = false)
         {
             try
             {
-                IStatus<T> result = await func.Invoke();
+                Status<T> result = await func.Invoke();
                 status.SetResult(result);
                 status.MergeStatuses(result);
                 

@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Clawfoot.Status.Interfaces;
 
 namespace Clawfoot.Status
 {
-    public partial class Status : IStatus
+    public partial class Status
     {
         /// <summary>
         /// Helper method that invokes the delegate, and if it throws an exception, records it in a returned status
@@ -33,7 +30,7 @@ namespace Clawfoot.Status
         {
             Status status = new Status();
 
-            return (Status) await status.InvokeAsync(action, keepException);
+            return await status.InvokeAsync(action, keepException);
         }
 
         /// <summary>
@@ -65,7 +62,7 @@ namespace Clawfoot.Status
         {
             Status status = new Status();
 
-            return (Status) await status.InvokeAsync(action, obj, keepException);
+            return await status.InvokeAsync(action, obj, keepException);
         }
         
         /// <summary>
@@ -74,7 +71,7 @@ namespace Clawfoot.Status
         /// <param name="func"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static Status Invoke(Func<IStatus> func, bool keepException = false)
+        public static Status Invoke(Func<Status> func, bool keepException = false)
         {
             Status status = new Status();
             status.Invoke(func, keepException);
@@ -88,7 +85,7 @@ namespace Clawfoot.Status
         /// <param name="func"></param>
         /// <param name="keepException"></param>
         /// <returns></returns>
-        public static async Task<Status> Invoke(Func<Task<IStatus>> func,
+        public static async Task<Status> Invoke(Func<Task<Status>> func,
             bool keepException = false)
         {
             Status status = new Status();
@@ -110,7 +107,7 @@ namespace Clawfoot.Status
             try
             {
                 TResult result = func.Invoke();
-                return AsSuccess<TResult>(result);
+                return Ok<TResult>(result);
             }
             catch (Exception ex)
             {
@@ -132,13 +129,13 @@ namespace Clawfoot.Status
         /// <param name="func">The delegate</param>
         /// <param name="keepException">To keep the exception in the stus, or just record the error message</param>
         /// <returns></returns>
-        public async static Task<Status<TResult>> InvokeResultAsync<TResult>(Func<Task<TResult>> func,
+        public static async Task<Status<TResult>> InvokeResultAsync<TResult>(Func<Task<TResult>> func,
             bool keepException = false)
         {
             try
             {
                 TResult result = await func.Invoke();
-                return AsSuccess<TResult>(result);
+                return Ok<TResult>(result);
             }
             catch (Exception ex)
             {
@@ -153,6 +150,31 @@ namespace Clawfoot.Status
             }
         }
 
+        /// <summary>
+        /// Invokes the delegate, and if it throws an exception, records it in a new Status.
+        /// If success, return the status result of the delegate
+        /// </summary>
+        /// <param name="func">The delegate</param>
+        /// <param name="keepException">To keep the exception in the status, or just record the error message</param>
+        /// <returns></returns>
+        public static async Task<Status<TResult>> InvokeResultAsync<TResult>(Func<Task<Status<TResult>>> func,
+            bool keepException = false)
+        {
+            try
+            {
+                return await func.Invoke();
+            }
+            catch (Exception ex)
+            {
+                if (!keepException)
+                {
+                    return Status.Error<TResult>(ex.Message);
+                }
 
+                Status<TResult> status = new Status<TResult>();
+                status.AddException(ex);
+                return status;
+            }
+        }
     }
 }

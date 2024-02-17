@@ -1,5 +1,4 @@
-﻿using Clawfoot.Status.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,13 +11,8 @@ namespace Clawfoot.Status
     /// </summary>
     public class GenericStatus : Status { }
 
-    public partial class Status : StatusBase, IStatus
+    public partial class Status : AbstractStatus<Status>
     {
-        // internal const string DefaultSuccessMessage = "Success";
-        // private protected readonly List<IError> _errors = new List<IError>();
-        // private protected readonly List<Exception> _exceptions = new List<Exception>();
-        // private protected string _successMessage = DefaultSuccessMessage;
-
         /// <summary>
         /// Create a generic status
         /// </summary>
@@ -36,41 +30,31 @@ namespace Clawfoot.Status
             }
         }
 
+        public Status MergeStatuses<T>(Status<T> status)
+        {
+            return base.MergeStatuses<Status, Status<T>>(status);
+        }
+
         /// <summary>
         /// Helper method that creates a <see cref="Status"/> with no errors
         /// </summary>
         /// <param name="successMessage">The default success message</param>
         /// <returns></returns>
-        public static Status AsSuccess(string successMessage = null)
+        public static Status Ok(string successMessage = null)
         {
             return new Status(successMessage);
         }
 
         /// <summary>
-        /// Helper method that creates a <see cref="Status"/> with no errors
-        /// </summary>
-        /// <param name="successMessage">The default success message</param>
-        /// <returns></returns>
-        public static Status Ok(string successMessage = null) => AsSuccess(successMessage);
-
-        /// <summary>
         /// Helper method that creates a <see cref="Status{T}"/> with a success message and a result
         /// </summary>
         /// <param name="result">The result of this generic</param>
         /// <param name="successMessage">The default success message</param>
         /// <returns></returns>
-        public static Status<TResult> AsSuccess<TResult>(TResult result, string successMessage = null)
+        public static Status<TResult> Ok<TResult>(TResult result, string successMessage = null)
         {
             return new Status<TResult>(result, successMessage);
         }
-        
-        /// <summary>
-        /// Helper method that creates a <see cref="Status{T}"/> with a success message and a result
-        /// </summary>
-        /// <param name="result">The result of this generic</param>
-        /// <param name="successMessage">The default success message</param>
-        /// <returns></returns>
-        public static Status<TResult> Ok<TResult>(TResult result, string successMessage = null) => AsSuccess(result, successMessage);
 
         /// <summary>
         /// Sugar to create a status from an error enum.
