@@ -42,6 +42,11 @@ namespace Clawfoot.Status
         /// If there are no errors this is true
         /// </summary>
         public bool Success => _errors.Count == 0;
+        
+        /// <summary>
+        /// If there are no errors this is true
+        /// </summary>
+        public bool IsOk => Success;
 
         /// <summary>
         /// If there are errors this is true
@@ -189,10 +194,10 @@ namespace Clawfoot.Status
         /// </summary>
         /// <param name="status">The status to merge into</param>
         /// <returns>The provided status</returns>
-        public TConcrete MergeIntoStatus<TStatus>(TStatus status)
+        public TStatus MergeIntoStatus<TStatus>(TStatus status)
             where TStatus : StatusBase
         {
-            return (TConcrete)status.MergeStatuses(this);
+            return (TStatus)status.MergeStatuses(this);
         }
 
         /// <summary>

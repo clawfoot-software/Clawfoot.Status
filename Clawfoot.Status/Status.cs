@@ -183,6 +183,12 @@ namespace Clawfoot.Status
             return status;
         }
         
+        public void Deconstruct(out bool success, out Status status)
+        {
+            success = Success;
+            status = this;
+        }
+        
         public static implicit operator bool(Status status)
         {
             return status.Success;
